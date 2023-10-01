@@ -59,6 +59,52 @@
   - useCases: todos casos de uso do sistema, exemplo: getUserByEmail
   - entitites: onde fica as entidades do sistema, exemplo: doctor
 
+## Como rodar o projeto
+
+- 1: Clone o projeto para sua máquina
+
+- 2: Vá até a pasta pelo terminal e execute esse comando:
+
+```
+npm install
+```
+
+- 3: Crie um banco de dados postgress
+
+- 4: Crie um arquivo na pasta raiz do projeto com o nome:
+
+```
+.env.development
+```
+
+- 5: Dentro desse arquivo coloque isso:
+
+```
+DATABASE_URL="postgresql://postgres:root@localhost:5432/app-monitoramento?schema=public"
+```
+
+Substitua o que está dentro das aspas pela url de conexão do seu banco de dados
+
+- 6: Rode o comando:
+
+```
+npx prisma migrate
+```
+
+- 7: Agora rode esse:
+
+```
+npx prisma db seed
+```
+
+PRONTO!!!
+
+Para rodar o projeto execute isso:
+
+```
+npm run dev
+```
+
 ## Fluxo da aplicação
 
 1 - admin cria acesso para os médicos, enfermeiros e assistentes
