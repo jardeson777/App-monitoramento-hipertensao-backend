@@ -74,7 +74,7 @@ npm install
 - 4: Crie um arquivo na pasta raiz do projeto com o nome:
 
 ```
-.env.development
+.env
 ```
 
 - 5: Dentro desse arquivo coloque isso:
@@ -88,7 +88,7 @@ Substitua o que está dentro das aspas pela url de conexão do seu banco de dado
 - 6: Rode o comando:
 
 ```
-npx prisma migrate
+npx prisma migrate deploy
 ```
 
 - 7: Agora rode esse:

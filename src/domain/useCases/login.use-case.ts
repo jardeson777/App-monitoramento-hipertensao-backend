@@ -25,8 +25,6 @@ export class LoginUseCase {
 
     const validPassword = this.criptography.compare(password, user.password);
 
-    if (!validPassword) throw new Error("invalid login");
-
     return validPassword;
   }
 }
