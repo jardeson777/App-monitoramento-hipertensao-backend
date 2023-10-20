@@ -12,6 +12,7 @@ model Role {
   tag      String    @unique
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  users     User[]
 
   @@map("role")
 }
@@ -21,6 +22,7 @@ model Hospital {
   name      String    @unique
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  users     User[]
 
   @@map("hospital")
 }
@@ -29,9 +31,11 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   name      String
-  role      String
+  role      Role @relation(fields: [role_id], references: [id])
+  role_id    String
   password  String
-  hospital  String
+  hospital  Hospital @relation(fields: [hospital_id], references: [id])
+  hospital_id String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

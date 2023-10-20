@@ -1,5 +1,6 @@
 import { ICriptography } from "../interfaces/ICriptographyAdapter";
 import { IUserRepository } from "../interfaces/IUserRepository";
+import jwt from "jsonwebtoken";
 
 type LoginUseCaseInput = {
   email: string;
@@ -16,7 +17,6 @@ export class LoginUseCase {
     const { email, password } = body;
 
     if (!email) throw new Error("email is required");
-
     if (!password) throw new Error("password is required");
 
     const user = await this.userRepository.findByEmail(email);
@@ -25,6 +25,22 @@ export class LoginUseCase {
 
     const validPassword = this.criptography.compare(password, user.password);
 
-    return validPassword;
+    if (!validPassword) throw new Error("user not found");
+
+    return this.generateToken(user.id, user.email);
+  }
+
+  generateToken(userId: string, email: string) {
+    const jwtSecret = process.env.JWT_SECRET;
+
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET não definido");
+    }
+
+    const token = jwt.sign({ userId, email }, jwtSecret, {
+      expiresIn: "1h",
+    });
+
+    return token;
   }
 }
