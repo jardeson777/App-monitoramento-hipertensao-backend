@@ -23,7 +23,7 @@ export function authenticateToken(
 
     const decoded = jwt.verify(tokenValue, jwtSecret);
 
-    req.user = decoded as { userId: string; email: string };
+    req.user = decoded as { userId: string; email: string; role: string };
 
     next();
   } catch (error) {

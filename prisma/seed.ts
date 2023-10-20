@@ -23,7 +23,7 @@ async function main() {
     where: { email: "admin@eupopay.com.br" },
     update: {},
     create: {
-      role_id: role.id,
+      role_tag: role.tag,
       email: "admin@uff.com.br",
       name: "Administrador",
       password: "$2b$10$SCR8CN9B20hftN6rAjyiBeJj4v/hGf17AJy9qMsmu3ZgjxnDxj1/C", //Senha 12345678
