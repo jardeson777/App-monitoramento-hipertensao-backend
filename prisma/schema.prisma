@@ -33,6 +33,8 @@ model User {
   hospital_id String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  medicalAppointmentsAsDoctor MedicalAppointment[] @relation("doctorAppointments")
+  medicalAppointmentsAsPatient MedicalAppointment[] @relation("patientAppointments")
 
   @@map("users")
 }
@@ -49,7 +51,10 @@ model Exam {
 model MedicalAppointment {
   id        String   @id @default(uuid())
   date      DateTime
-  doctor    String
+  doctor     User     @relation("doctorAppointments", fields: [doctorId], references: [id])
+  doctorId   String
+  patient    User     @relation("patientAppointments", fields: [patientId], references: [id])
+  patientId  String
   exam      String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
