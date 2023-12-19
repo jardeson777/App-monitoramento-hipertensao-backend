@@ -35,26 +35,41 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
   medicalAppointmentsAsDoctor MedicalAppointment[] @relation("doctorAppointments")
   medicalAppointmentsAsPatient MedicalAppointment[] @relation("patientAppointments")
+  patientMedicine PatientMedicine[]
 
   @@map("users")
 }
 
-model Exam {
+model Medicine {
   id        String   @id @default(uuid())
   name      String
+  color     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  patientMedicine PatientMedicine[]
+
+  @@map("medicine")
+}
+
+model PatientMedicine {
+  id        String   @id @default(uuid())
+  patient   User     @relation(fields: [patientId], references: [id])
+  patientId String   @map("patient_id")
+  medicine  Medicine @relation(fields: [medicineId], references: [id])
+  medicineId String  @map("medicine_id")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("exam")
+  @@map("patient-medicine")
 }
 
 model MedicalAppointment {
   id        String   @id @default(uuid())
   date      DateTime
   doctor     User     @relation("doctorAppointments", fields: [doctorId], references: [id])
-  doctorId   String
+  doctorId   String   @map("doctor_id")
   patient    User     @relation("patientAppointments", fields: [patientId], references: [id])
-  patientId  String
+  patientId  String   @map("patient_id")
   exam      String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
