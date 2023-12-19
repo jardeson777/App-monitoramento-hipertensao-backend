@@ -1,16 +1,9 @@
 import { PrismaClient } from "@prisma/client";
+import { RolesEnum } from "../src/domain/entities/Role";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const role = await prisma.role.upsert({
-    where: { tag: "ADMINISTRADOR" },
-    update: {},
-    create: {
-      tag: "ADMINISTRADOR",
-    },
-  });
-
   const hospital = await prisma.hospital.upsert({
     where: { name: "Hospital Universitário Antonio Pedro" },
     update: {},
@@ -23,7 +16,7 @@ async function main() {
     where: { email: "admin@eupopay.com.br" },
     update: {},
     create: {
-      role_tag: role.tag,
+      role_tag: RolesEnum.ADMIN,
       email: "admin@uff.com.br",
       name: "Administrador",
       password: "$2b$10$SCR8CN9B20hftN6rAjyiBeJj4v/hGf17AJy9qMsmu3ZgjxnDxj1/C", //Senha 12345678

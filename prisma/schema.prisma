@@ -7,14 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Role {
-  id        String   @id @default(uuid())
-  tag      String    @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  users     User[]
-
-  @@map("role")
+enum Role {
+  ADMIN
+  PATIENT
+  DOCTOR
 }
 
 model Hospital {
@@ -31,8 +27,7 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   name      String
-  role      Role @relation(fields: [role_tag], references: [tag])
-  role_tag    String
+  role_tag  Role
   password  String
   hospital  Hospital @relation(fields: [hospital_id], references: [id])
   hospital_id String
