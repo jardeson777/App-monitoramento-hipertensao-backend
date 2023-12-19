@@ -109,7 +109,7 @@ npm run dev
 
 1 - admin cria acesso para os médicos, enfermeiros e assistentes
 2 - médicos, enfermeiros e assistentes loga na plataforma
-3 - médicos, enfermeiros e assistentes criam acesso para os pacientes
+3 - médicos, enfermeiros, assistentes e admin criam acesso para os pacientes
 4 - paciente loga na plataforma
 5 - médicos, enfermeiros, assistentes ou pacientes entram com os dados de remédio e consultas
 6 - pacientes recebem notificações de remédio, consultas e pressão

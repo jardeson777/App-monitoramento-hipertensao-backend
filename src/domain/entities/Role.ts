@@ -1,9 +1,6 @@
-class Role {
-    id: string;
-    tag: string;
-
-    constructor (id: string, tag: string) {
-        this.id = id;
-        this.tag = tag;
-    }
+export enum RolesEnum {
+  ADMIN = "ADMIN",
+  PATIENT = "PATIENT",
+  DOCTOR = "DOCTOR",
 }
+
