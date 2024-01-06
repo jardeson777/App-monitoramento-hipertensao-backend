@@ -19,18 +19,21 @@ class PatientController {
           status: 400,
           messenger: "email missing",
         });
+        return;
       }
       if (!name) {
         res.status(400).json({
           status: 400,
           messenger: "name missing",
         });
+        return;
       }
       if (!password) {
         res.status(400).json({
           status: 400,
           messenger: "password missing",
         });
+        return;
       }
 
       const patientWasCreated = await useCase.execute({
