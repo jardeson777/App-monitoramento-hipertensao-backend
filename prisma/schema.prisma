@@ -7,13 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Role {
-  id        String   @id @default(uuid())
-  tag      String    @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("role")
+enum Role {
+  ADMIN
+  PATIENT
+  DOCTOR
 }
 
 model Hospital {
@@ -21,6 +18,7 @@ model Hospital {
   name      String    @unique
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  users     User[]
 
   @@map("hospital")
 }
@@ -29,28 +27,49 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   name      String
-  role      String
+  role_tag  Role
   password  String
-  hospital  String
+  hospital  Hospital @relation(fields: [hospital_id], references: [id])
+  hospital_id String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  medicalAppointmentsAsDoctor MedicalAppointment[] @relation("doctorAppointments")
+  medicalAppointmentsAsPatient MedicalAppointment[] @relation("patientAppointments")
+  patientMedicine PatientMedicine[]
 
   @@map("users")
 }
 
-model Exam {
+model Medicine {
   id        String   @id @default(uuid())
   name      String
+  color     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  patientMedicine PatientMedicine[]
+
+  @@map("medicine")
+}
+
+model PatientMedicine {
+  id        String   @id @default(uuid())
+  patient   User     @relation(fields: [patientId], references: [id])
+  patientId String   @map("patient_id")
+  medicine  Medicine @relation(fields: [medicineId], references: [id])
+  medicineId String  @map("medicine_id")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("exam")
+  @@map("patient-medicine")
 }
 
 model MedicalAppointment {
   id        String   @id @default(uuid())
   date      DateTime
-  doctor    String
+  doctor     User     @relation("doctorAppointments", fields: [doctorId], references: [id])
+  doctorId   String   @map("doctor_id")
+  patient    User     @relation("patientAppointments", fields: [patientId], references: [id])
+  patientId  String   @map("patient_id")
   exam      String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

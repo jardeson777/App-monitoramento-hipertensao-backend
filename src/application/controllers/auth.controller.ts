@@ -13,11 +13,9 @@ class AuthController {
       const criptography = new CriptographyAdapter();
       const useCase = new LoginUseCase(repository, criptography);
 
-      const loginIsValid = await useCase.execute({ email, password });
+      const token = await useCase.execute({ email, password });
 
-      if (!loginIsValid) throw new Error("invalid login");
-
-      res.send("rota para logar");
+      res.json({ token });
     } catch (e) {
       const error = e as { message: string };
       res.status(400).send(error.message);

@@ -1,10 +1,10 @@
-export type User = {
+import { RolesEnum } from "./Role";
+
+export type Patient = {
   id: string;
   email: string;
   name: string;
-  role_tag: string;
+  role_tag: RolesEnum;
   password: string;
   hospital_id: string;
-  createdAt: Date;
-  updatedAt: Date;
 };
