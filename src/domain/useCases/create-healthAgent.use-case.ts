@@ -3,7 +3,7 @@ import { IHealthAgentRepository } from "../interfaces/IHealthAgentRepository";
 import { RolesEnum } from "../entities/Role";
 
 type CreateHealthAgentUseCaseInput = {
-  name : string;
+  name: string;
   email: string;
   password: string;
   hospitalID: string;
@@ -13,7 +13,7 @@ export class CreateHealthAgentUseCase {
   constructor(
     private healthAgentRepository: IHealthAgentRepository,
     private criptography: ICriptography
-  ) {}
+  ) { }
 
   async execute(body: CreateHealthAgentUseCaseInput) {
     const { name, email, password, hospitalID } = body;
@@ -26,13 +26,15 @@ export class CreateHealthAgentUseCase {
     const encryptedPassword = this.criptography.encrypt(password);
 
     const user = await this.healthAgentRepository.create(
-      name, 
-      email, 
-      encryptedPassword, 
-      RolesEnum.DOCTOR, 
+      name,
+      email,
+      encryptedPassword,
+      RolesEnum.DOCTOR,
       hospitalID
     );
 
     if (!user) throw new Error("error on doctor registration");
+
+    return user;
   }
 }

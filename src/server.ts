@@ -13,4 +13,4 @@ app.use(authRouter);
 app.use(healthAgentRouter);
 app.use(patientRouter);
 
-app.listen(3333, () => console.log(`Server is running at 3333.`));
+app.listen(5555, () => console.log(`Server is running at 5555.`));

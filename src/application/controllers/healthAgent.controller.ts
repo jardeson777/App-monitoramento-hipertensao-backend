@@ -12,12 +12,16 @@ class HealthAgentController {
       const criptography = new CriptographyAdapter();
       const useCase = new CreateHealthAgentUseCase(repository, criptography);
 
-      await useCase.execute({ name, email, password, hospitalID });
+      const response = await useCase.execute({ name, email, password, hospitalID });
 
-      res.send("Health Agent created");
+      res.status(201).json({
+        id: response.id,
+      });
     } catch (e) {
       const error = e as { message: string };
-      res.status(400).send(error.message);
+      res.status(400).json({
+        message: error.message,
+      });
     }
   }
 }
