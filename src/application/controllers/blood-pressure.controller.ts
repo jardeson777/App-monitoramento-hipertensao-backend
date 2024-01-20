@@ -9,31 +9,34 @@ class BloodPressureController {
             const { patientId, systolic, diastolic } = req.body;
             const repositoryBloodPressure = new BloodPressureRepository();
             const useCase = new CreateBloodPressureUseCase(repositoryBloodPressure);
-
-            const response = await useCase.execute( {patientId, systolic, diastolic })
-
-            res.status(201).json({
-                id: response.id,
-            });
                       
             if (!patientId) {
                 res.status(400).json({
                   status: 400,
                   messenger: "patient id missing",
                 });
+                return;
             }
             if (!systolic) {
                 res.status(400).json({
                   status: 400,
                   messenger: "systolic missing",
                 });
+                return;
             }
             if (!diastolic) {
                 res.status(400).json({
                   status: 400,
                   messenger: "diastolic missing",
                 });
+                return;
             }
+
+            const response = await useCase.execute( {patientId, systolic, diastolic });
+
+            res.status(201).json({
+              id: response.id,
+            });
 
         } catch (e) {
             const error = e as { message: string };
