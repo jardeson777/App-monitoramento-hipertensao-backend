@@ -29,6 +29,6 @@
     "typescript": "^5.1.6"
   },
   "prisma": {
-    "seed": "dotenv -e .env.development -- ts-node ./prisma/seed.ts"
+    "seed": "dotenv -e .env -- ts-node ./prisma/seed.ts"
   }
 }
