@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import patientRouter from "./infra/routes/patient.routes";
 import medicineRouter from "./infra/routes/medicine.routes";
 import bloodPressureRouter from "./infra/routes/blood-pressure.routes";
+import medicineIDRouter from "./infra/routes/medicine-by-id.routes";
 
 dotenv.config();
 
@@ -16,5 +17,6 @@ app.use(healthAgentRouter);
 app.use(patientRouter);
 app.use(medicineRouter);
 app.use(bloodPressureRouter);
+app.use(medicineIDRouter);
 
 app.listen(5555, () => console.log(`Server is running at 5555.`));
