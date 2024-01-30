@@ -6,5 +6,6 @@ export interface IMedicineRepository {
   findMedicineById(id: string): Promise<Medicine | null>;
   findMedicineByPatientId(patientId: string): Promise<Medicine[] | null>;
   takeMedicine(medicineId: string, status: MedicineTakenStatus): Promise<{ id: string } | null>;
+  deleteMedicine(medicineId: string): Promise<void>;
 }
 

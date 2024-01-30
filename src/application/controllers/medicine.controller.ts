@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import MedicineRepository from "../repositories/medicine.repository";
 import { CreateMedicineUseCase } from "../../domain/useCases/create-medicine.use-case";
 import { TakeMedicineUseCase } from "../../domain/useCases/take-medicine.use-case";
+import { DeleteMedicineUseCase } from "../../domain/useCases/delete-medicine.use-case";
 
 class MedicineController {
   async create(req: Request, res: Response) {
@@ -127,6 +128,34 @@ class MedicineController {
       }
 
       res.json({ status: 200, messenger: "Medicine taken" });
+      return;
+    } catch (e) {
+      const error = e as { message: string };
+      res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
+      return;
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const repositoryMedicine = new MedicineRepository();
+      const useCase = new DeleteMedicineUseCase(repositoryMedicine);
+
+      if (!id) {
+        res.status(400).json({
+          status: 400,
+          messenger: "medicineId missing",
+        });
+        return;
+      }
+
+      await useCase.execute(id);
+
+      res.json({ status: 200, messenger: "Medicine deleted" });
       return;
     } catch (e) {
       const error = e as { message: string };

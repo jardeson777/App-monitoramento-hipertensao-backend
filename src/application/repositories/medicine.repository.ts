@@ -109,6 +109,18 @@ class MedicineRepository {
       throw new Error(`error on take medicine: ${error}`);
     }
   }
+
+  async deleteMedicine(medicineId: string) {
+    try {
+      await prisma.medicine.delete({
+        where: {
+          id: medicineId
+        }
+      });
+    } catch (error) {
+      throw new Error(`error on delete medicine: ${error}`);
+    }
+  }
 }
 
 export default MedicineRepository; 
