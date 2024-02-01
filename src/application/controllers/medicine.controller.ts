@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import MedicineRepository from "../repositories/medicine.repository";
+import { DosageType } from "../../domain/entities/Medicine";
 import { CreateMedicineUseCase } from "../../domain/useCases/create-medicine.use-case";
 import { TakeMedicineUseCase } from "../../domain/useCases/take-medicine.use-case";
+import { FindMedicineUseCase  } from "../../domain/useCases/find-medicine.use-case";
 
 class MedicineController {
   async create(req: Request, res: Response) {
@@ -135,6 +137,33 @@ class MedicineController {
         message: error.message,
       });
       return;
+    }
+  }
+
+  async findByID(req: Request, res: Response) {
+    try {
+      const medicineID = req.body;
+
+      const repository = new MedicineRepository();
+      const useCase = new FindMedicineUseCase(repository);
+
+      const response = await useCase.execute(medicineID);
+
+      res.status(201).json({
+        id: response.id,
+        name: response.name,
+        color: response.color,
+        patientId: response.patientId,
+        initialDate: response.initialDate,
+        intervalInHour: response.intervalInHour,
+        dosage: response.dosage,
+        dosageType: DosageType[response.dosageType]
+      });
+    } catch (e) {
+      const error = e as { message: string };
+      res.status(400).json({
+        message: error.message,
+      });
     }
   }
 }

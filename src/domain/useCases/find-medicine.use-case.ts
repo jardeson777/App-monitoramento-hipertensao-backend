@@ -1,14 +1,14 @@
-import { IMedicineIDRepository } from "../interfaces/IMedicineIDRepository";
+import { IMedicineRepository } from "../interfaces/IMedicineRepository";
 
-export class MedicineIDUseCase {
+export class FindMedicineUseCase {
     constructor(
-        private medicineIDRepository: IMedicineIDRepository,
+        private medicineRepository: IMedicineRepository,
       ) {}
 
     async execute (medicineID: string) {
         if (!medicineID) throw new Error("medicine ID is required");
 
-        const medicine = await this.medicineIDRepository.findByID(medicineID);
+        const medicine = await this.medicineRepository.findMedicineById(medicineID);
 
         if (!medicine) throw new Error("medicine not found");
 
