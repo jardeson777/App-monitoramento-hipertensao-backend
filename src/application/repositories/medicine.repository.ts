@@ -1,10 +1,11 @@
 import { prisma } from "../../infra/db/prisma";
 import { DosageType, Medicine } from "../../domain/entities/Medicine";
 import { MedicineTakenStatus } from "@prisma/client";
+import { IMedicineRepository } from "../../domain/interfaces/IMedicineRepository";
 
 type CreateMedicineInput = Omit<Medicine, "id" | "createdAt" | "updatedAt">;
 
-class MedicineRepository {
+class MedicineRepository implements IMedicineRepository{
   async createMedicine({
     name,
     color,
@@ -64,17 +65,13 @@ class MedicineRepository {
     }
   }
 
-  async findMedicineByPatientId(patientId: string): Promise<Medicine[] | null> {
+  async findMedicineByPatientId(patientId: string): Promise<Medicine[]> {
     try {
       const medicines = await prisma.medicine.findMany({
         where: {
           patientId,
         },
       });
-
-      if (!medicines) {
-        return null;
-      }
 
       return medicines.map((medicine) => ({
         id: medicine.id,
