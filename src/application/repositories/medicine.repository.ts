@@ -3,6 +3,7 @@ import { DosageType, Medicine } from "../../domain/entities/Medicine";
 import { MedicineTakenStatus } from "@prisma/client";
 
 type CreateMedicineInput = Omit<Medicine, "id" | "createdAt" | "updatedAt">;
+type EditMedicineInput =   Omit<Medicine, "id" | "createdAt" | "updatedAt" | "patientId">;
 
 class MedicineRepository {
   async createMedicine({
@@ -109,6 +110,23 @@ class MedicineRepository {
       throw new Error(`error on take medicine: ${error}`);
     }
   }
+
+  async editMedicine(medicineId: string, editMedicineInput: EditMedicineInput): Promise<{ id: string } | null> {
+    try{
+      const updatedMedicine = await prisma.medicine.update({
+        where: { id: medicineId },
+        data: { ...editMedicineInput },
+      });
+
+      return {
+        id: updatedMedicine.id,
+      };
+    } catch (error) {
+      console.log(error)
+      throw new Error(`error editing medicine: ${error}`);
+    }
+  }
 }
+
 
 export default MedicineRepository; 
