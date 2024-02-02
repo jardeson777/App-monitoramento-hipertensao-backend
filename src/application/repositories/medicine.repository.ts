@@ -122,7 +122,6 @@ class MedicineRepository {
         id: updatedMedicine.id,
       };
     } catch (error) {
-      console.log(error)
       throw new Error(`error editing medicine: ${error}`);
     }
   }
