@@ -5,6 +5,7 @@ import { CreateMedicineUseCase } from "../../domain/useCases/create-medicine.use
 import { TakeMedicineUseCase } from "../../domain/useCases/take-medicine.use-case";
 import { DeleteMedicineUseCase } from "../../domain/useCases/delete-medicine.use-case";
 import { FindMedicineUseCase } from "../../domain/useCases/find-medicine.use-case";
+import { ListMedicineUseCase } from "../../domain/useCases/list-medicine.use-case";
 
 class MedicineController {
   async create(req: Request, res: Response) {
@@ -159,6 +160,27 @@ class MedicineController {
 
       res.json({ status: 200, messenger: "Medicine deleted" });
       return;
+    } catch (e) {
+      const error = e as { message: string };
+      res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
+      return;
+    }
+  }
+
+  async list(req: Request, res: Response) {
+    try {
+      const patientId = "6bb79cb2-471d-4058-bf42-9c9c5d420dff";
+      const repositoryMedicine = new MedicineRepository();
+      const useCase = new ListMedicineUseCase(repositoryMedicine);
+
+      const listMedicine = await useCase.execute(patientId);
+
+      res.json({ medicines: listMedicine });
+      return;
+
     } catch (e) {
       const error = e as { message: string };
       res.status(400).json({
