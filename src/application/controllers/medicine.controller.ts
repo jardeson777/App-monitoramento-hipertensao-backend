@@ -3,7 +3,7 @@ import MedicineRepository from "../repositories/medicine.repository";
 import { DosageType } from "../../domain/entities/Medicine";
 import { CreateMedicineUseCase } from "../../domain/useCases/create-medicine.use-case";
 import { TakeMedicineUseCase } from "../../domain/useCases/take-medicine.use-case";
-import { FindMedicineUseCase  } from "../../domain/useCases/find-medicine.use-case";
+import { FindMedicineUseCase } from "../../domain/useCases/find-medicine.use-case";
 
 class MedicineController {
   async create(req: Request, res: Response) {
@@ -142,14 +142,14 @@ class MedicineController {
 
   async findByID(req: Request, res: Response) {
     try {
-      const medicineID = req.body;
+      const { medicineId } = req.body;
 
       const repository = new MedicineRepository();
       const useCase = new FindMedicineUseCase(repository);
 
-      const response = await useCase.execute(medicineID);
+      const response = await useCase.execute(medicineId);
 
-      res.status(201).json({
+      res.status(200).json({
         id: response.id,
         name: response.name,
         color: response.color,
