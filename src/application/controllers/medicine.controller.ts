@@ -4,8 +4,9 @@ import { DosageType } from "../../domain/entities/Medicine";
 import { CreateMedicineUseCase } from "../../domain/useCases/create-medicine.use-case";
 import { TakeMedicineUseCase } from "../../domain/useCases/take-medicine.use-case";
 import { DeleteMedicineUseCase } from "../../domain/useCases/delete-medicine.use-case";
-import { FindMedicineUseCase } from "../../domain/useCases/find-medicine.use-case";
 import { ListMedicineUseCase } from "../../domain/useCases/list-medicine.use-case";
+import { FindMedicineUseCase } from "../../domain/useCases/find-medicine.use-case";
+import { EditMedicineUseCase } from "../../domain/useCases/edit-medicine.use-case";
 
 class MedicineController {
   async create(req: Request, res: Response) {
@@ -215,6 +216,27 @@ class MedicineController {
       res.status(400).json({
         message: error.message,
       });
+    }
+  }
+
+  async edit(req: Request, res: Response) {
+    try {
+      const { name, color, initialDate, intervalInHour, dosage, dosageType } = req.body;
+      const { medicineId } = req.params;
+      const repositoryMedicine = new MedicineRepository();
+      const editUseCase = new EditMedicineUseCase(repositoryMedicine);
+
+      await editUseCase.execute(medicineId, { name, color, initialDate, intervalInHour, dosage, dosageType })
+
+      res.json({ status: 200, messenger: "Medicine edited" });
+      return;
+    } catch (e) {
+      const error = e as { message: string };
+      res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
+      return;
     }
   }
 }

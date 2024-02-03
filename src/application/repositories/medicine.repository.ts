@@ -4,8 +4,9 @@ import { MedicineTakenStatus } from "@prisma/client";
 import { IMedicineRepository } from "../../domain/interfaces/IMedicineRepository";
 
 type CreateMedicineInput = Omit<Medicine, "id" | "createdAt" | "updatedAt">;
+type EditMedicineInput = Omit<Medicine, "id" | "createdAt" | "updatedAt" | "patientId">;
 
-class MedicineRepository implements IMedicineRepository{
+class MedicineRepository implements IMedicineRepository {
   async createMedicine({
     name,
     color,
@@ -118,6 +119,22 @@ class MedicineRepository implements IMedicineRepository{
       throw new Error(`error on delete medicine: ${error}`);
     }
   }
+
+  async editMedicine(medicineId: string, editMedicineInput: EditMedicineInput): Promise<{ id: string } | null> {
+    try {
+      const updatedMedicine = await prisma.medicine.update({
+        where: { id: medicineId },
+        data: { ...editMedicineInput },
+      });
+
+      return {
+        id: updatedMedicine.id,
+      };
+    } catch (error) {
+      throw new Error(`error editing medicine: ${error}`);
+    }
+  }
 }
+
 
 export default MedicineRepository; 

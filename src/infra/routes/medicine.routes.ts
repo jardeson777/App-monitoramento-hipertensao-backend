@@ -8,5 +8,6 @@ medicineRouter.post("/medicine/take", medicineController.take);
 medicineRouter.delete("/medicine/:id", medicineController.delete);
 medicineRouter.get("/medicine/find", medicineController.findByID);
 medicineRouter.get("/medicine/list", medicineController.list);
+medicineRouter.patch("/medicine/:medicineId", medicineController.edit);
 
 export default medicineRouter;
