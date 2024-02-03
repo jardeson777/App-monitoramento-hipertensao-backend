@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import healthAgentController from "../../application/controllers/healthAgent.controller";
+import healthAgentController from "../../application/controllers/health-agent.controller";
 
 const healthAgentRouter = Router();
 

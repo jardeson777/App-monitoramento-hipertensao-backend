@@ -1,6 +1,6 @@
 import express from "express";
 import authRouter from "./infra/routes/auth.routes";
-import healthAgentRouter from "./infra/routes/healthAgent.routes";
+import healthAgentRouter from "./infra/routes/health-agent.routes";
 import dotenv from "dotenv";
 import patientRouter from "./infra/routes/patient.routes";
 import medicineRouter from "./infra/routes/medicine.routes";

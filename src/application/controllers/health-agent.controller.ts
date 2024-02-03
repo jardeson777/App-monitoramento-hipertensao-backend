@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CreateHealthAgentUseCase } from "../../domain/useCases/create-healthAgent.use-case";
 import { CriptographyAdapter } from "../../infra/adapters/CriptograpyAdapter";
-import HealthAgentRepository from "../repositories/healthAgent.repository";
+import HealthAgentRepository from "../repositories/health-agent.repository";
 
 class HealthAgentController {
   async register(req: Request, res: Response) {
