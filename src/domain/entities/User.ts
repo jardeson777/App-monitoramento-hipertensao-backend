@@ -1,6 +1,6 @@
 export type User = {
   id: string;
-  email: string;
+  cpf: string;
   name: string;
   role_tag: string;
   password: string;

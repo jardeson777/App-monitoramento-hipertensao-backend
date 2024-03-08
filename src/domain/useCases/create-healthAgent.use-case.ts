@@ -4,7 +4,7 @@ import { RolesEnum } from "../entities/Role";
 
 type CreateHealthAgentUseCaseInput = {
   name: string;
-  email: string;
+  cpf: string;
   password: string;
   hospitalID: string;
 };
@@ -16,18 +16,18 @@ export class CreateHealthAgentUseCase {
   ) { }
 
   async execute(body: CreateHealthAgentUseCaseInput) {
-    const { name, email, password, hospitalID } = body;
+    const { name, cpf, password, hospitalID } = body;
 
     if (!name) throw new Error("name is required");
     if (!hospitalID) throw new Error("hospital ID is required");
-    if (!email) throw new Error("email is required");
+    if (!cpf) throw new Error("cpf is required");
     if (!password) throw new Error("password is required");
 
     const encryptedPassword = this.criptography.encrypt(password);
 
     const user = await this.healthAgentRepository.create(
       name,
-      email,
+      cpf,
       encryptedPassword,
       RolesEnum.DOCTOR,
       hospitalID

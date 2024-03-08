@@ -13,11 +13,11 @@ async function main() {
   });
 
   await prisma.user.upsert({
-    where: { email: "admin@eupopay.com.br" },
+    where: { cpf: "195.407.567-74" },
     update: {},
     create: {
       role_tag: RolesEnum.ADMIN,
-      email: "admin@uff.com.br",
+      cpf: "195.407.567-74",
       name: "Administrador",
       password: "$2b$10$SCR8CN9B20hftN6rAjyiBeJj4v/hGf17AJy9qMsmu3ZgjxnDxj1/C", //Senha 12345678
       hospital_id: hospital.id,

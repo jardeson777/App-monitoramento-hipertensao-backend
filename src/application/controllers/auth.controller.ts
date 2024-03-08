@@ -6,14 +6,14 @@ import { CriptographyAdapter } from "../../infra/adapters/CriptograpyAdapter";
 class AuthController {
   async login(req: Request, res: Response) {
     try {
-      const email = req.body.email;
+      const cpf = req.body.cpf;
       const password = req.body.password;
 
       const repository = new UserRepository();
       const criptography = new CriptographyAdapter();
       const useCase = new LoginUseCase(repository, criptography);
 
-      const token = await useCase.execute({ email, password });
+      const token = await useCase.execute({ cpf, password });
 
       res.json({ token });
     } catch (e) {

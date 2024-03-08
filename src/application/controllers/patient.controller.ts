@@ -6,7 +6,7 @@ import { CriptographyAdapter } from "../../infra/adapters/CriptograpyAdapter";
 class PatientController {
   async create(req: Request, res: Response) {
     try {
-      const { email, name, password, hospital_id } = req.body;
+      const { cpf, name, password, hospital_id } = req.body;
       const repositoryPatient = new PatientRepository();
       const criptography = new CriptographyAdapter();
       const useCase = new CreatePatientUseCase(
@@ -14,10 +14,10 @@ class PatientController {
         criptography
       );
 
-      if (!email) {
+      if (!cpf) {
         res.status(400).json({
           status: 400,
-          messenger: "email missing",
+          messenger: "cpf missing",
         });
       }
       if (!name) {
@@ -34,7 +34,7 @@ class PatientController {
       }
 
       const patientWasCreated = await useCase.execute({
-        email,
+        cpf,
         hospital_id,
         name,
         password,

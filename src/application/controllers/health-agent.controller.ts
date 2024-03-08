@@ -6,13 +6,13 @@ import HealthAgentRepository from "../repositories/health-agent.repository";
 class HealthAgentController {
   async register(req: Request, res: Response) {
     try {
-      const { name, email, password, hospitalID } = req.body;
+      const { name, cpf, password, hospitalID } = req.body;
 
       const repository = new HealthAgentRepository();
       const criptography = new CriptographyAdapter();
       const useCase = new CreateHealthAgentUseCase(repository, criptography);
 
-      const response = await useCase.execute({ name, email, password, hospitalID });
+      const response = await useCase.execute({ name, cpf, password, hospitalID });
 
       res.status(201).json({
         id: response.id,

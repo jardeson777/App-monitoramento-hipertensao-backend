@@ -5,7 +5,7 @@ type CreatePatientInput = Omit<Patient, "id">;
 
 class PatientRepository {
   async createPatient({
-    email,
+    cpf,
     hospital_id,
     name,
     password,
@@ -14,7 +14,7 @@ class PatientRepository {
     try {
       const userCreated = await prisma.user.create({
         data: {
-          email,
+          cpf,
           name,
           password,
           role_tag,

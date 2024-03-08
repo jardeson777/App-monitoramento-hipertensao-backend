@@ -17,4 +17,8 @@ app.use(patientRouter);
 app.use(medicineRouter);
 app.use(bloodPressureRouter);
 
-app.listen(5555, () => console.log(`Server is running at 5555.`));
+app.route("/").get((req, res) => {
+    res.send("Server is running.");
+});
+
+app.listen(3333, () => console.log(`Server is running at 3333.`));

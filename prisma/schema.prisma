@@ -26,56 +26,56 @@ enum DosageType {
 
 model Hospital {
   id        String   @id @default(uuid())
-  name      String    @unique
+  name      String   @unique
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   users     User[]
 
   @@map("hospital")
-} 
+}
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String
-  role_tag  Role
-  password  String
-  hospital  Hospital @relation(fields: [hospital_id], references: [id])
-  hospital_id String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  medicalAppointmentsAsDoctor MedicalAppointment[] @relation("doctorAppointments")
+  id                           String               @id @default(uuid())
+  cpf                          String               @unique
+  name                         String
+  role_tag                     Role
+  password                     String
+  hospital                     Hospital             @relation(fields: [hospital_id], references: [id])
+  hospital_id                  String
+  createdAt                    DateTime             @default(now()) @map("created_at")
+  updatedAt                    DateTime             @updatedAt @map("updated_at")
+  medicalAppointmentsAsDoctor  MedicalAppointment[] @relation("doctorAppointments")
   medicalAppointmentsAsPatient MedicalAppointment[] @relation("patientAppointments")
-  bloodPressure BloodPressure[]
-  medicine Medicine[]
+  bloodPressure                BloodPressure[]
+  medicine                     Medicine[]
 
   @@map("users")
 }
 
 model Medicine {
-  id        String   @id @default(uuid())
-  name      String
-  color     String
-  patient   User     @relation(fields: [patientId], references: [id])
-  patientId String   @map("patient_id")
-  initialDate DateTime @map("initial_date")
-  intervalInHour Int @map("interval_in_hour")
-  dosage Int
-  dosageType DosageType @map("dosage_type")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  medicineTaken MedicineTaken[]
+  id             String          @id @default(uuid())
+  name           String
+  color          String
+  patient        User            @relation(fields: [patientId], references: [id])
+  patientId      String          @map("patient_id")
+  initialDate    DateTime        @map("initial_date")
+  intervalInHour Int             @map("interval_in_hour")
+  dosage         Int
+  dosageType     DosageType      @map("dosage_type")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  medicineTaken  MedicineTaken[]
 
   @@map("medicine")
 }
 
 model MedicineTaken {
-  id        String   @id @default(uuid())
-  medicine  Medicine @relation(fields: [medicineId], references: [id])
-  medicineId String   @map("medicine_id")
-  status  MedicineTakenStatus
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id         String              @id @default(uuid())
+  medicine   Medicine            @relation(fields: [medicineId], references: [id])
+  medicineId String              @map("medicine_id")
+  status     MedicineTakenStatus
+  createdAt  DateTime            @default(now()) @map("created_at")
+  updatedAt  DateTime            @updatedAt @map("updated_at")
 
   @@map("medicine-taken")
 }
@@ -95,10 +95,10 @@ model BloodPressure {
 model MedicalAppointment {
   id        String   @id @default(uuid())
   date      DateTime
-  doctor     User     @relation("doctorAppointments", fields: [doctorId], references: [id])
-  doctorId   String   @map("doctor_id")
-  patient    User     @relation("patientAppointments", fields: [patientId], references: [id])
-  patientId  String   @map("patient_id")
+  doctor    User     @relation("doctorAppointments", fields: [doctorId], references: [id])
+  doctorId  String   @map("doctor_id")
+  patient   User     @relation("patientAppointments", fields: [patientId], references: [id])
+  patientId String   @map("patient_id")
   exam      String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

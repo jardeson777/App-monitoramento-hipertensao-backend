@@ -8,7 +8,7 @@ type CreateHealthAgentOutput = {
 export interface IHealthAgentRepository {
   create(
     name: string,
-    email: string,
+    cpf: string,
     password: string,
     roleID: RolesEnum,
     hospitalID: string

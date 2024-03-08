@@ -3,7 +3,7 @@ import { IUserRepository } from "../interfaces/IUserRepository";
 import jwt from "jsonwebtoken";
 
 type LoginUseCaseInput = {
-  email: string;
+  cpf: string;
   password: string;
 };
 
@@ -11,15 +11,15 @@ export class LoginUseCase {
   constructor(
     private userRepository: IUserRepository,
     private criptography: ICriptography
-  ) {}
+  ) { }
 
   async execute(body: LoginUseCaseInput) {
-    const { email, password } = body;
+    const { cpf, password } = body;
 
-    if (!email) throw new Error("email is required");
+    if (!cpf) throw new Error("cpf is required");
     if (!password) throw new Error("password is required");
 
-    const user = await this.userRepository.findByEmail(email);
+    const user = await this.userRepository.findByCpf(cpf);
 
     if (!user) throw new Error("user not found");
 
@@ -27,17 +27,17 @@ export class LoginUseCase {
 
     if (!validPassword) throw new Error("user not found");
 
-    return this.generateToken(user.id, user.email, user.role_tag);
+    return this.generateToken(user.id, user.cpf, user.role_tag);
   }
 
-  generateToken(userId: string, email: string, role: string) {
+  generateToken(userId: string, cpf: string, role: string) {
     const jwtSecret = process.env.JWT_SECRET;
 
     if (!jwtSecret) {
       throw new Error("JWT_SECRET não definido");
     }
 
-    const token = jwt.sign({ userId, email, role }, jwtSecret, {
+    const token = jwt.sign({ userId, cpf, role }, jwtSecret, {
       expiresIn: "1h",
     });
 

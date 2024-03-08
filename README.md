@@ -122,7 +122,7 @@ npm run dev
 
   - method: post
   - body:
-    - email: string;
+    - cpf: string;
     - password: string;
   - response:
     - token: string;
@@ -148,7 +148,7 @@ npm run dev
   - header:
     - autorization
   - body:
-    - email: string;
+    - cpf: string;
     - password: string;
     - rule: "admin" | "patient" | "assistant" | "doctor" | "nurse";
     - name: string;
