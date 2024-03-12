@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import patientRouter from "./infra/routes/patient.routes";
 import medicineRouter from "./infra/routes/medicine.routes";
 import bloodPressureRouter from "./infra/routes/blood-pressure.routes";
+import videoRouter from "./infra/routes/video.routes";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(healthAgentRouter);
 app.use(patientRouter);
 app.use(medicineRouter);
 app.use(bloodPressureRouter);
+app.use(videoRouter);
 
 app.route("/").get((req, res) => {
     res.send("Server is running.");
