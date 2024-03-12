@@ -27,17 +27,17 @@ export class LoginUseCase {
 
     if (!validPassword) throw new Error("user not found");
 
-    return this.generateToken(user.id, user.cpf, user.role_tag);
+    return this.generateToken(user.id, user.cpf, user.role_tag, user.hospital_id);
   }
 
-  generateToken(userId: string, cpf: string, role: string) {
+  generateToken(userId: string, cpf: string, role: string, hospitalId: string) {
     const jwtSecret = process.env.JWT_SECRET;
 
     if (!jwtSecret) {
       throw new Error("JWT_SECRET não definido");
     }
 
-    const token = jwt.sign({ userId, cpf, role }, jwtSecret, {
+    const token = jwt.sign({ userId, cpf, role, hospitalId }, jwtSecret, {
       expiresIn: "1h",
     });
 

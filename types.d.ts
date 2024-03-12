@@ -4,6 +4,7 @@ declare namespace Express {
       userId: string;
       cpf: string;
       role: string;
+      hospitalId: string;
     };
   }
   export interface Response {
