@@ -13,7 +13,12 @@ export class ListVideoUseCase {
         throw new Error("No videos found");
       }
 
-      return videos;
+      return videos.map(video => ({
+        id: video.id,
+        title: video.title,
+        url: video.url,
+        hospitalId: video.hospitalId,
+      }));
 
     } catch (error) {
       throw new Error(`error on list video: ${error}`);
