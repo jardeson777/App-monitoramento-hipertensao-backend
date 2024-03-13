@@ -69,6 +69,21 @@ class VideoRepository implements IVideoRepository {
     }
   }
 
+  async findVideoByHospitalId(hospitalId: string): Promise<Video[]> {
+    try {
+      const videos = await prisma.listVideo.findMany({
+        where: {
+          hospitalId,
+        }
+      })
+
+      return videos.map((video) => ({ ...video }))
+
+    } catch (e) {
+      throw new Error(`error on find video by hospital id: ${e}`);
+    }
+  }
+
 }
 
 export default VideoRepository;

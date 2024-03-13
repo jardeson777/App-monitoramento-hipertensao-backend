@@ -3,6 +3,7 @@ import VideoRepository from "../repositories/video.repository";
 import { CreateVideoUseCase } from "../../domain/useCases/create-video.use-case";
 import { DeleteVideoUseCase } from "../../domain/useCases/delete-video.use-case";
 import { EditVideoUseCase } from "../../domain/useCases/edit-video.use-case";
+import { ListVideoUseCase } from "../../domain/useCases/list-video.use-case";
 
 class VideoController {
   async create(req: Request, res: Response) {
@@ -63,11 +64,9 @@ class VideoController {
         return;
       }
 
-      const videoDeleted = await useCase.execute(id);
+      await useCase.execute(id);
 
-      if (videoDeleted) {
-        res.json({ status: 200, messenger: "Video deleted" });
-      }
+      res.json({ status: 200, messenger: "Video deleted" });
 
     } catch (e) {
       const error = e as { message: string };
@@ -89,6 +88,26 @@ class VideoController {
       await useCase.execute(videoId, { title, url })
 
       res.json({ status: 200, messenger: "Video edited" });
+
+    } catch (e) {
+      const error = e as { message: string };
+      res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
+      return;
+    }
+  }
+
+  async list(req: Request, res: Response) {
+    try {
+      const { hospitalId } = req.user;
+      const repository = new VideoRepository();
+      const useCase = new ListVideoUseCase(repository);
+
+      const listVideo = await useCase.execute(hospitalId);
+
+      res.json({ status: 200, videos: listVideo });
 
     } catch (e) {
       const error = e as { message: string };

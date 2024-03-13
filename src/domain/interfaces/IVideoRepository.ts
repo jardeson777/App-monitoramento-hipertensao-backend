@@ -8,4 +8,5 @@ export interface IVideoRepository {
   deleteVideo(videoId: string): Promise<void>;
   findVideoById(videoId: string): Promise<Video | null>;
   editVideo(videoId: string, video: EditVideoInput): Promise<{ id: string } | null>;
+  findVideoByHospitalId(hospitalId: string): Promise<Video[]>;
 }
