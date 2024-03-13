@@ -5,5 +5,7 @@ import { authenticateToken } from "../middleware/auth.middleware";
 const videoRouter = Router();
 
 videoRouter.post("/video", authenticateToken, videoController.create);
+videoRouter.delete("/video/delete", authenticateToken, videoController.delete);
+videoRouter.patch("/video/:videoId", authenticateToken, videoController.edit);
 
 export default videoRouter;

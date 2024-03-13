@@ -1,4 +1,5 @@
-import { CreateVideoInput, IVideoRepository } from "../../domain/interfaces/IVideoRepository";
+import { Video } from "../../domain/entities/Video";
+import { CreateVideoInput, IVideoRepository, EditVideoInput } from "../../domain/interfaces/IVideoRepository";
 import { prisma } from "../../infra/db/prisma";
 
 class VideoRepository implements IVideoRepository {
@@ -19,6 +20,55 @@ class VideoRepository implements IVideoRepository {
       throw new Error(`error on create video: ${e}`);
     }
   }
+
+  async findVideoById(id: string): Promise<Video | null> {
+    try {
+      const video = await prisma.listVideo.findUnique({
+        where: {
+          id,
+        }
+      })
+
+      if (!video) {
+        return null;
+      }
+
+      return { ...video };
+
+    } catch (e) {
+      throw new Error(`error on find video by id: ${e}`);
+    }
+  }
+
+  async deleteVideo(id: string) {
+    try {
+      await prisma.listVideo.delete({
+        where: {
+          id,
+        }
+      })
+
+    } catch (e) {
+      throw new Error(`error on delete video: ${e}`);
+    }
+  }
+
+  async editVideo(id: string, video: EditVideoInput): Promise<{ id: string } | null> {
+    try {
+      const updatedVideo = await prisma.listVideo.update({
+        where: { id },
+        data: { ...video }
+      })
+
+      return {
+        id: updatedVideo.id,
+      };
+
+    } catch (e) {
+      throw new Error(`error editing video: ${e}`);
+    }
+  }
+
 }
 
 export default VideoRepository;

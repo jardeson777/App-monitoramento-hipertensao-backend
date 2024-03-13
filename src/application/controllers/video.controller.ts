@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
-import { CreateVideoUseCase } from "../../domain/useCases/create-video.use-case";
 import VideoRepository from "../repositories/video.repository";
+import { CreateVideoUseCase } from "../../domain/useCases/create-video.use-case";
+import { DeleteVideoUseCase } from "../../domain/useCases/delete-video.use-case";
+import { EditVideoUseCase } from "../../domain/useCases/edit-video.use-case";
 
 class VideoController {
   async create(req: Request, res: Response) {
     try {
-      const { title, url, hospitalId } = req.body;
+      const { title, url } = req.body;
+      const { hospitalId } = req.user;
       const repository = new VideoRepository();
       const useCase = new CreateVideoUseCase(repository);
 
@@ -21,14 +24,6 @@ class VideoController {
         res.status(400).json({
           status: 400,
           messenger: "url missing",
-        });
-        return;
-      }
-
-      if (!hospitalId) {
-        res.status(400).json({
-          status: 400,
-          messenger: "hospitalId missing",
         });
         return;
       }
@@ -53,6 +48,58 @@ class VideoController {
       return;
     }
   }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.body;
+      const repository = new VideoRepository();
+      const useCase = new DeleteVideoUseCase(repository);
+
+      if (!id) {
+        res.status(400).json({
+          status: 400,
+          messenger: "videoId missing",
+        });
+        return;
+      }
+
+      const videoDeleted = await useCase.execute(id);
+
+      if (videoDeleted) {
+        res.json({ status: 200, messenger: "Video deleted" });
+      }
+
+    } catch (e) {
+      const error = e as { message: string };
+      res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
+      return;
+    }
+  }
+
+  async edit(req: Request, res: Response) {
+    try {
+      const { title, url } = req.body;
+      const { videoId } = req.params;
+      const repository = new VideoRepository();
+      const useCase = new EditVideoUseCase(repository);
+
+      await useCase.execute(videoId, { title, url })
+
+      res.json({ status: 200, messenger: "Video edited" });
+
+    } catch (e) {
+      const error = e as { message: string };
+      res.status(400).json({
+        status: 400,
+        message: error.message,
+      });
+      return;
+    }
+  }
+
 }
 
 export default new VideoController();
